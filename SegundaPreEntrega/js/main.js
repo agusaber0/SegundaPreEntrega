@@ -1,19 +1,18 @@
+
+let reservas = [];
+
 function anunciarReserva() {
     alert("Reserva tus entradas para la avant premiere de la película'");
 }
-
 
 function solicitarDatosUsuario() {
     let reserva = {};
 
     reserva.nombreCompleto = prompt("Por favor ingresa tu nombre completo:");
-    
-
     reserva.numeroTelefono = prompt("Por favor ingresa tu número de teléfono:");
 
     return reserva;
 }
-
 
 function seleccionarFecha() {
     let fechas = ['Viernes 16 de Agosto', 'Sábado 17 de Agosto'];
@@ -34,7 +33,6 @@ function seleccionarFecha() {
     return fechaElegida;
 }
 
-
 function solicitarCantidadEntradas() {
     let cantidad = 0;
     while (cantidad <= 0) {
@@ -46,7 +44,6 @@ function solicitarCantidadEntradas() {
     }
     return cantidad;
 }
-
 
 function seleccionarUbicacion() {
     let ubicaciones = ['Platea Baja', 'Platea Alta', 'Palcos'];
@@ -69,7 +66,6 @@ function seleccionarUbicacion() {
     return ubicacionElegida;
 }
 
-
 function validarCantidadEntradas(ubicacion, cantidad) {
     if (ubicacion === 'Palcos') {
         alert('Por favor comunicate al número 0096113379790 para reservar entradas en palcos.');
@@ -82,7 +78,6 @@ function validarCantidadEntradas(ubicacion, cantidad) {
     }
     return true;
 }
-
 
 function confirmarReserva(reserva) {
     let confirmacion = '';
@@ -99,6 +94,19 @@ function confirmarReserva(reserva) {
 }
 
 
+function buscarReserva() {
+    let busqueda = prompt("Ingrese su nombre completo o número de teléfono para buscar su reserva:");
+    let resultado = reservas.find(reserva => reserva.nombreCompleto === busqueda || reserva.numeroTelefono === busqueda);
+    
+    if (resultado) {
+        alert(`Reserva encontrada:\nNombre Completo: ${resultado.nombreCompleto}\nNúmero de Teléfono: ${resultado.numeroTelefono}\nFecha: ${resultado.fecha}\nCantidad de Entradas: ${resultado.cantidadEntradas}\nUbicación: ${resultado.ubicacion}`);
+    } else {
+        alert("No se encontró ninguna reserva con esos datos.");
+    }
+    menuPrincipal();
+}
+
+
 function reservarEntradas() {
     anunciarReserva();
     
@@ -110,11 +118,25 @@ function reservarEntradas() {
     if (validarCantidadEntradas(reserva.ubicacion, reserva.cantidadEntradas)) {
         if (confirmarReserva(reserva)) {
             alert('El equipo de producción te agradece por reservar tus entradas \n Ya están disponibles para retirar en la boletería del cine\n Direccion: Calle A esq. B s/n \n Lunes a Domingos de 15 a 23 horas.');
+            reservas.push(reserva);  
         } else {
             alert('Reserva cancelada. Por favor comience de nuevo.');
         }
-}
+    }
+    menuPrincipal();
 }
 
-reservarEntradas();
+function menuPrincipal() {
+    let opcion = prompt("Seleccione una opción:\n1. Reservar entradas\n2. Buscar reserva");
+    
+    if (opcion === '1') {
+        reservarEntradas();
+    } else if (opcion === '2') {
+        buscarReserva();
+    } else {
+        alert("Opción no válida. Por favor elija 1 o 2.");
+    }
+}
 
+
+menuPrincipal();
